@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\WeatherController;
+use App\Http\Controllers\ScrapingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,3 +20,4 @@ Route::get('/', function () {
 });
 Route::get('/tambaharea',[WeatherController::class, 'tambah_area']);
 Route::get('/cuaca',[WeatherController::class, 'cuaca']);
+Route::get('/scrap',[ScrapingController::class, 'scrap']);

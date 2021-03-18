@@ -17,8 +17,10 @@ class CreateStatistikTable extends Migration
             $table->unsignedBigInteger('area_id');
             $table->string('min_humidity')->nullable();
             $table->string('max_humidity')->nullable();
-            $table->string('min_temperature')->nullable();
-            $table->string('max_temperature')->nullable();
+            $table->string('min_temperature_celcius')->nullable();
+            $table->string('min_temperature_fahrenheit')->nullable();
+            $table->string('max_temperature_celcius')->nullable();
+            $table->string('max_temperature_fahrenheit')->nullable();
             $table->string('timerange')->nullable();
             $table->timestamps();
         });

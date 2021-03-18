@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class ArahAnginModel extends Model
 {
     protected $table = 'arah_angin';
-    protected $primaryKey = 'area_id';
-    protected $fillable = ['provinsi'];
+    protected $fillable = [
+        'area_id',
+        'deg',
+        'card',
+        'sexa',
+        'timerange'
+    ];
+    public function wilayah()
+    {
+        return $this->belongsTo(WilayahModel::class,'area_id','area_id');
+    }
 }

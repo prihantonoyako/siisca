@@ -7,7 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class CuacaModel extends Model
 {
-    protected $table = 'wilayah';
-    protected $primaryKey = 'area_id';
-    protected $fillable = ['provinsi'];
+    protected $table = 'cuaca';
+    protected $fillable = [
+        'area_id',
+        'cuaca',
+        'timerange'
+    ];
+    public function wilayah()
+    {
+        return $this->belongsTo(WilayahModel::class,'area_id','area_id');
+    }
 }
