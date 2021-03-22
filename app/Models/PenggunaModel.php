@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Pengguna;
+namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,6 +13,7 @@ class PenggunaModel extends Authenticatable
     protected $primaryKey = 'id_pengguna';
     protected $fillable = [
         'username',
+        'password',
         'nama_depan',
         'nama_belakang',
         'email',
