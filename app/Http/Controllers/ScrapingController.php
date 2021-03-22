@@ -2,17 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ArahAnginModel;
-use App\Models\CuacaModel;
-use App\Models\KecepatanAnginModel;
-use App\Models\KelembapanModel;
-use App\Models\StatistikModel;
-use App\Models\SuhuModel;
-use App\Models\WilayahModel;
+use App\Models\Table\ArahAnginModel;
+use App\Models\Table\CuacaModel;
+use App\Models\Table\KecepatanAnginModel;
+use App\Models\Table\KelembapanModel;
+use App\Models\Table\StatistikModel;
+use App\Models\Table\SuhuModel;
+use App\Models\Table\WilayahModel;
 use DOMDocument;
 
 class ScrapingController extends Controller
 {
+    //scrap area
+    public function tambah_area(){
+        $dom = new DOMDocument;
+        $dom->load("https://data.bmkg.go.id/DataMKG/MEWS/DigitalForecast/DigitalForecast-Indonesia.xml");
+        $areas = $dom->getElementsByTagName('area');
+        foreach($areas as $area) {
+            $wilayah = new WilayahModel;
+            $wilayah->area_id = $area->getAttribute('id');
+            $wilayah->provinsi = $area->getAttribute('domain');
+            $wilayah->save();
+            echo $area->getAttribute('id') . "<br>";
+            echo $area->getAttribute('domain');
+            echo "<br>";
+           /*foreach($area->getElementsByTagName('parameter') as $item){
+               echo $item->getAttribute('id');
+               echo "<br>";
+           }
+           echo "<br>";
+           */
+        }
+    }
+
     public function scrap()
     {
         $doc = new DOMDocument;
@@ -126,9 +148,6 @@ class ScrapingController extends Controller
                 $wilayah_model->kecepatan_angin()->save($kecepatan_angin);
             }
         }
-        /*
-        $wilayah->statistik()->save($statistik);
-        return response()->json('success',200);
-        */
+//        return response()->json('success',200);
     }
 }
