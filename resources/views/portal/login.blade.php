@@ -18,7 +18,7 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                 </div>
-                                <form class="user" action="/login" method="post">
+                                <form class="user" action="{{ route('login') }}" method="post">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <div class="form-group">
                                         <input type="text" name="username" class="form-control form-control-user" id="username" placeholder="Username">
