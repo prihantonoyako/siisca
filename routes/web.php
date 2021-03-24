@@ -22,8 +22,8 @@ use Illuminate\Auth\Events\Login;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-//Route::get('/',[LoginController::class, 'show']);
-//Route::post('/login',[LoginController::class,'authenticate'])->name('login');
+Route::get('/',[LoginController::class, 'show']);
+Route::post('/login',[LoginController::class,'authenticate'])->name('login');
 Route::get('/register',[LoginController::class, 'register']);
 Route::post('/register/save',[RegisterController::class, 'store']);
 //Route::get('/',[UserController::class, 'index']);
@@ -32,10 +32,10 @@ Route::get('/tambaharea',[ScrapingController::class, 'tambah_area']);
 //Route::get('/dashboard',[UserController::class,'index']);
 Route::get('/scrap',[ScrapingController::class, 'scrap']);
 
-Route::group(['middleware' => ['guest:pengguna']], function() {
-    Route::get('/', [LoginController::class, 'show'])->name('login');
-    Route::post('/', [LoginController::class, 'authenticate']);
-});
+// Route::group(['middleware' => ['guest:pengguna']], function() {
+//     Route::post('/', [LoginController::class, 'show'])->name('login');
+//     Route::post('/', [LoginController::class, 'authenticate']);
+// });
 Route::resource('/dashboard', UserController::class)->middleware('auth:pengguna');
 // Route::group(['middleware' => ['guest:admin', 'guest:operator']], function() {
 //     Route::get('/', [LoginController::class, 'index'])->name('login');

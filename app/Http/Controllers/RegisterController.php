@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\Models\Pengguna\PenggunaModel;
+use Illuminate\Support\Facades\Hash;
+use App\Models\PenggunaModel;
 
 class RegisterController extends Controller
 {
@@ -37,7 +37,7 @@ class RegisterController extends Controller
     public function store(Request $request)
     {
        $username = $request->input('username');
-       $password = $request->input('password');
+       $password = Hash::make($request->input('password'));
        $nama_depan = $request->input('nama_depan');
        $nama_belakang = $request->input('nama_belakang');
        $email = $request->input('email');
