@@ -3,24 +3,21 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-//use App\Models\PenggunaModel;
+use App\Models\PenggunaModel;
 
 class LoginController extends Controller
 {
     public function show(){
+        if(Auth::guard('pengguna')->check()){
+            return redirect('dashboard');
+        }
         return view('portal.login');
     }
-
     public function authenticate(Request $request){
-        $credentials = $request->only('username','password');
-        // $request->validate([
-        //     'username' => 'required',
-        //     'password' => 'required'
-        // ]);
-        // $credentials = array('username'=>$request->email,'password' => $request->password);
-
-        if(Auth::guard('pengguna')->attempt($credentials)){
-            
+        if(Auth::guard('pengguna')->attempt([
+            'username'=>$request->username,
+            'password'=>$request->password,
+            'is_aktif'=>1])){
             $request->session()->regenerate();
             return redirect('/dashboard');
         }
@@ -30,27 +27,12 @@ class LoginController extends Controller
             'password' => 'password salah'
         ]);
     }
-
-    // public function authenticate(Request $request){
-    //     $pengguna = new PenggunaModel;
-    //     $username = $request->input('username');
-    //     $password = $request->input('password');
-    //     $pengguna->where([
-    //         'username' => $username,
-    //         'password' => $password,
-    //         'is_aktif' => 1
-    //     ])->first();
-    //     if($pengguna){
-    //         redirect('/dashboard');
-    //     }else {
-    //         redirect('/');
-    //     }
-    // }
-
     public function logout(Request $request){
+        Auth::guard('pengguna')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect('/');
     }
-
     public function register(){
         return view('portal.register');
     }

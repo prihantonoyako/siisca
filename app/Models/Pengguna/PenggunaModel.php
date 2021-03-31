@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Models\Pengguna;
+
+use App\Models\Pengguna\RolePenggunaModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -22,4 +24,8 @@ class PenggunaModel extends Authenticatable
     protected $hidden = [
         'password'
     ];
+
+    public function hasRole() {
+        return $this->hasMany(RolePenggunaModel::class,'id_pengguna','id_pengguna');
+    }
 }

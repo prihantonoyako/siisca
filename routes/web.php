@@ -7,6 +7,7 @@ use App\Http\Controllers\ScrapingController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Auth\Events\Login;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,32 +23,19 @@ use Illuminate\Auth\Events\Login;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/',[LoginController::class, 'show']);
+Route::get('/',[LoginController::class, 'show'])->name('index');
 Route::post('/login',[LoginController::class,'authenticate'])->name('login');
 Route::get('/register',[LoginController::class, 'register']);
 Route::post('/register/save',[RegisterController::class, 'store']);
-//Route::get('/',[UserController::class, 'index']);
 Route::get('/tambaharea',[ScrapingController::class, 'tambah_area']);
-//Route::get('/cuaca',[WeatherController::class, 'cuaca']);
-//Route::get('/dashboard',[UserController::class,'index']);
 Route::get('/scrap',[ScrapingController::class, 'scrap']);
 
-// Route::group(['middleware' => ['guest:pengguna']], function() {
-//     Route::post('/', [LoginController::class, 'show'])->name('login');
-//     Route::post('/', [LoginController::class, 'authenticate']);
+Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard')->middleware('auth:pengguna');
+Route::get('/dashboard/getRole',[UserController::class,'getRole'])->name('test')->middleware('auth:pengguna');
+// Route::middleware('RoleAuth')->group(function() {
+//     Route::prefix('premium')->name('premium.')->group(function() {
+//         Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
+//     });
 // });
-Route::resource('/dashboard', UserController::class)->middleware('auth:pengguna');
-// Route::group(['middleware' => ['guest:admin', 'guest:operator']], function() {
-//     Route::get('/', [LoginController::class, 'index'])->name('login');
-//     Route::post('/', [LoginController::class, 'authenticate']);
-// });
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-// Route::group(['middleware' => ['auth:admin', 'auth:operator']], function() {
-    
-// });
-// Route::resource('/parkir', ParkirController::class)->middleware('auth:operator');
-// Route::resource('/jenis_kendaraan', JenisKendaraanController::class)->middleware('auth:admin');
-// Route::resource('/kapasitas', KonfigurasiKapasitasController::class)->middleware('auth:admin');
-// Route::resource('/tarif', KonfigurasiTarifController::class)->middleware('auth:admin');
-// Route::resource('/admin', AdminController::class)->middleware('auth:admin');
-// Route::resource('/operator', OperatorController::class)->middleware('auth:admin');
+
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
