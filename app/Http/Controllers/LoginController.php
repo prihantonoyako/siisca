@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\PenggunaModel;
+use App\Models\Pengguna\PenggunaModel;
 
 class LoginController extends Controller
 {
@@ -17,7 +17,7 @@ class LoginController extends Controller
         if(Auth::guard('pengguna')->attempt([
             'username'=>$request->username,
             'password'=>$request->password,
-            'is_aktif'=>1])){
+            'is_aktif'=>'1'])){
             $request->session()->regenerate();
             return redirect('/dashboard');
         }

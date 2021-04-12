@@ -13,34 +13,46 @@ class UserController extends Controller
 {
     public function index(){
         $pengguna = PenggunaModel::find(Auth::guard('pengguna')->id())->first();
+        $role = $this->getRole();
+        $role_aktif = RoleModel::find($role);
+        $nama_role = array();
+        foreach($role_aktif as $item){
+            array_push($nama_role,$item->nama_role);
+        }
         $profile = [
             'username' => $pengguna->username,
             'avatar' => $pengguna->foto
         ];
         $data = [
-            'profile' => $profile
+            'profile' => $profile,
+            'role_aktif' => $nama_role
         ];
-        return view('portal.dashboard',[
-            'profile'=>$profile
-        ]);
+        // dd($role_aktif[0]->id_role);
+        $this->getAkses($role_aktif[0]->id_role);
+        // return view('portal.dashboard',[
+        //     'profile'=>$profile,
+        //     'role_aktif' => $nama_role
+        // ]);
     }
 
     public function getRole(){
         $roles = PenggunaModel::find(Auth::guard('pengguna')->id())->hasRole()->get();
-        // dd($role);
-        foreach($roles as $role){
-            echo $role->id_role;
+        $role = array();
+        foreach($roles as $item){
+            array_push($role,$item->id_role);
         }
-        // echo $role->id_role;
-        // echo Auth::guard('pengguna')->id();
-        //$role = RolePenggunaModel::where('id_pengguna',$id_pengguna)->get();
-        // print_r($role);
+        return $role;
     }
 
-    public function getMenu(){
+    public function getMenu($id_menu){
+        $menus = RoleModel:: find($id_menu);
     }
 
     public function getAkses($role){
-        $akses = RoleModel::find($role);
+        $akses = RoleModel::find($role)
+            ->hasAkses()
+            ->where('is_aktif','1')
+            ->pluck('id_menu');
+        return $akses;
     }
 }

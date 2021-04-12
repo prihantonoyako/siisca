@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\PenggunaModel;
+use App\Models\Pengguna\PenggunaModel;
 
 class RegisterController extends Controller
 {
@@ -50,7 +50,7 @@ class RegisterController extends Controller
        $pengguna->email = $email;
        $pengguna->foto = $foto;
        $pengguna->save();
-       redirect('/');
+       return redirect('/');
     }
 
     /**
