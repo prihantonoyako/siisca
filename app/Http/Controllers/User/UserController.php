@@ -11,43 +11,61 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function index(){
+    public function index($is_role_aktif=0){
+
+        // if(($request->session()->has('role'))){
+            
+        // }
+        //find profile information
         $pengguna = PenggunaModel::find(Auth::guard('pengguna')->id())->first();
-        $role = $this->getRole();
-        $role_aktif = RoleModel::find($role);
-        $nama_role = array();
-        foreach($role_aktif as $item){
-            array_push($nama_role,$item->nama_role);
+
+        //find role yang dijabat
+        $roles = $this->getRolePengguna();
+
+        //find informasi role yang aktif di dashboard
+        $role_aktif = $this->getRole($roles[$is_role_aktif]->id_role);
+
+        $role_pengguna = array();
+        //find nama role yang dijabat
+
+        foreach($roles as $item){
+            $role_pengguna[$item->id_role] = $this->getRole($item->id_role)->nama_role;
         }
+
+        //compiling profile information
         $profile = [
             'username' => $pengguna->username,
             'avatar' => $pengguna->foto
         ];
-        $data = [
-            'profile' => $profile,
-            'role_aktif' => $nama_role
-        ];
-        // dd($role_aktif[0]->id_role);
-        $this->getAkses($role_aktif[0]->id_role);
-        // return view('portal.dashboard',[
-        //     'profile'=>$profile,
-        //     'role_aktif' => $nama_role
-        // ]);
+
+        $test = $this->getAkses($roles[$is_role_aktif]->id_role);
+        
+        //show dashboard
+        return view('portal.dashboard',[
+            'profile'=>$profile,
+            'roles' => $role_pengguna,
+            'role_aktif' => $role_aktif->nama_role
+        ]);
     }
 
-    public function getRole(){
-        $roles = PenggunaModel::find(Auth::guard('pengguna')->id())->hasRole()->get();
-        $role = array();
-        foreach($roles as $item){
-            array_push($role,$item->id_role);
-        }
+    //function for finding role yang dijabat
+    public function getRolePengguna(){
+        $rolesPengguna = PenggunaModel::find(Auth::guard('pengguna')->id())->hasRole()->get();
+        return $rolesPengguna;
+    }
+
+    //function for get role information
+    public function getRole($id_role){
+        $role = RoleModel::find($id_role);
         return $role;
     }
 
+    //function for get menu
     public function getMenu($id_menu){
-        $menus = RoleModel:: find($id_menu);
+        $menus = RoleModel:: find($id_menu)->get();
     }
 
+    //function for get akses to menu
     public function getAkses($role){
         $akses = RoleModel::find($role)
             ->hasAkses()
@@ -55,4 +73,9 @@ class UserController extends Controller
             ->pluck('id_menu');
         return $akses;
     }
+
+    //function for storing active role
+    public function changeRole($role){
+        session(['role'=>$role]);
+    } 
 }

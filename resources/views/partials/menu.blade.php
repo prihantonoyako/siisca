@@ -2,7 +2,7 @@
 <li class="nav-item active">
     <a class="nav-link" href="index.html">
         <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Dashboard</span></a>
+        <span>Dashboard {{ $role_aktif }}</span></a>
 </li>
 
 <!-- Divider -->
@@ -22,7 +22,7 @@
     <div id="peranAktif" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Aktif:</h6>
-            @foreach($role_aktif as $item)
+            @foreach($roles as $item)
                 <a class="collapse-item" href="buttons.html">{{ $item }}</a>
             @endforeach
         </div>
