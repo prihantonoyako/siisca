@@ -41,5 +41,10 @@ class UserSeeder extends Seeder
             'id_pengguna' => 2,
             'id_role' => 2,
         ]);
+        
+        DB::table('role_pengguna')->insert([
+            'id_pengguna' => 1,
+            'id_role' => 2,
+        ]);
     }
 }

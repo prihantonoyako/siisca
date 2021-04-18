@@ -9,7 +9,6 @@ use App\Models\Pengguna\AksesModel;
 use App\Models\Pengguna\MenuGroupModel;
 use App\Models\Pengguna\MenuModel;
 use Illuminate\Support\Facades\Auth;
-
 class RoleAuth
 {
     /**
@@ -21,26 +20,21 @@ class RoleAuth
      */
     public function handle(Request $request, Closure $next)
     {
-
+        
         if (Auth::guard('pengguna')->check()) {
-            $routeActiveRole = $request
-                ->route()
-                ->parameter('is_role_aktif');
-            if(!is_null($routeActiveRole)){
-                $role = RolePenggunaModel::find(
-                    Auth::guard('pengguna')->id()
-                )
-                ->where('id_role',$routeActiveRole)->exists();
-            }else{
-                $role = RolePenggunaModel::findOrFail(
-                    Auth::guard('pengguna')->id()
-                );
-            }
-            if ($role) {
+            $role = RolePenggunaModel::findOrFail(
+                Auth::guard('pengguna')->id()
+            );
+            $routeController = $request->route()->getName();
+
+            $menu = MenuModel::where(
+                'url','LIKE',$routeController
+            );
+            $akses = AksesModel::where(
+                'id_role',$role
+            )->where('id_menu',$menu);
+            if($akses != null){
                 return $next($request);
-            }
-            else{
-                return abort(403);
             }
         }
         return abort(403);

@@ -38,7 +38,7 @@ class ScrapingController extends Controller
     public function scrap()
     {
         $doc = new DOMDocument;
-        $doc->load(asset('DigitalForecast-Indonesia.xml'));
+        $doc->load("https://data.bmkg.go.id/DataMKG/MEWS/DigitalForecast/DigitalForecast-Indonesia.xml");
         $xpath = new \DOMXPath($doc);
         $wilayah = new WilayahModel();
         //Extract area_id from DB::wilayah
