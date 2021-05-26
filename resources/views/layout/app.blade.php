@@ -4,7 +4,7 @@
 <head>
 
     @include('partials.head')
-
+    @yield('head')
 </head>
 
 <body id="page-top">

@@ -22,18 +22,18 @@ class RoleAuth
     public function handle(Request $request, Closure $next)
     {
 
-        if (Auth::guard('pengguna')->check()) {
+        if (Auth::check()) {
             $routeActiveRole = $request
                 ->route()
-                ->parameter('is_role_aktif');
+                ->parameter('id_role');
             if(!is_null($routeActiveRole)){
                 $role = RolePenggunaModel::find(
-                    Auth::guard('pengguna')->id()
+                    Auth::id()
                 )
                 ->where('id_role',$routeActiveRole)->exists();
             }else{
                 $role = RolePenggunaModel::findOrFail(
-                    Auth::guard('pengguna')->id()
+                    Auth::id()
                 );
             }
             if ($role) {

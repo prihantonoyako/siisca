@@ -15,12 +15,12 @@ class AksesSeeder extends Seeder
     public function run()
     {
         DB::table('role')->insert([
-            'nama_role' => 'Super User',
-            'url' => 'superuser'
+            'nama_role' => 'basic',
+            'url' => 'basic'
         ]);
         DB::table('role')->insert([
-            'nama_role' => 'User',
-            'url' => 'User'
+            'nama_role' => 'premium',
+            'url' => 'premium'
         ]);
         DB::table('akses')->insert([
             'id_role' => 1,

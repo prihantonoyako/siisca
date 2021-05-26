@@ -21,7 +21,7 @@ class CreateStatistikTable extends Migration
             $table->string('min_temperature_fahrenheit')->nullable();
             $table->string('max_temperature_celcius')->nullable();
             $table->string('max_temperature_fahrenheit')->nullable();
-            $table->string('timerange')->nullable();
+            $table->timestamp('timerange');
             $table->timestamps();
         });
         Schema::table('statistik', function (Blueprint $table){

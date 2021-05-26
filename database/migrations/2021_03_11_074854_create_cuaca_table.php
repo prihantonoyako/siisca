@@ -16,7 +16,7 @@ class CreateCuacaTable extends Migration
         Schema::create('cuaca', function (Blueprint $table) {
             $table->unsignedBigInteger('area_id');
             $table->string('cuaca')->nullable();
-            $table->string('timerange')->nullable();
+            $table->timestamp('timerange');
             $table->timestamps();
         });
         Schema::table('cuaca', function (Blueprint $table){

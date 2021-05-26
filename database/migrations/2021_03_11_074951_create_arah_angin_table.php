@@ -18,7 +18,7 @@ class CreateArahAnginTable extends Migration
             $table->string('deg')->nullable();
             $table->string('card')->nullable();
             $table->string('sexa')->nullable();
-            $table->string('timerange')->nullable();
+            $table->timestamp('timerange');
             $table->timestamps();
         });
         Schema::table('arah_angin', function (Blueprint $table){

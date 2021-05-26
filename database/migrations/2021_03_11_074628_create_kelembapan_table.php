@@ -16,7 +16,7 @@ class CreateKelembapanTable extends Migration
         Schema::create('kelembapan', function (Blueprint $table) {
             $table->unsignedBigInteger('area_id');
             $table->string('kelembapan')->nullable();
-            $table->string('timerange')->nullable();
+            $table->timestamp('timerange');
             $table->timestamps();
         });
         Schema::table('kelembapan', function (Blueprint $table){

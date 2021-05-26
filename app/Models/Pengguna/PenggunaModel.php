@@ -28,4 +28,8 @@ class PenggunaModel extends Authenticatable
     public function hasRole() {
         return $this->hasMany(RolePenggunaModel::class,'id_pengguna','id_pengguna');
     }
+
+    public function getNamaPenggunaAttribute(){
+        return "{$this->nama_depan} {$this->nama_belakang}";
+    }
 }

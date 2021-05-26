@@ -19,7 +19,7 @@ class CreateKecepatanAnginTable extends Migration
             $table->string('mph')->nullable();
             $table->string('kph')->nullable();
             $table->string('ms')->nullable();
-            $table->string('timerange')->nullable();
+            $table->timestamp('timerange');
             $table->timestamps();
         });
         Schema::table('kecepatan_angin', function (Blueprint $table){

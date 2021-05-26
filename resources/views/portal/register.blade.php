@@ -7,7 +7,9 @@
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
-                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image">
+                        <div class="text-center"><a href='https://www.freepik.com/vectors/avatar'>Avatar vector created by stories - www.freepik.com</a></div>
+                    </div>
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
@@ -62,6 +64,7 @@
                             </div>-->
                             <div class="text-center">
                                 <a class="small" href="/">Already have an account? Login!</a>
+                                
                             </div>
                         </div>
                     </div>

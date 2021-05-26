@@ -19,6 +19,7 @@ class CreateMenuTable extends Migration
             $table->string('nama_menu',10);
             $table->string('url_menu')->nullable();
             $table->string('icon')->nullable();
+            $table->enum('is_aktif',[0,1]);
             $table->timestamps();
         });
         Schema::table('menu', function (Blueprint $table){

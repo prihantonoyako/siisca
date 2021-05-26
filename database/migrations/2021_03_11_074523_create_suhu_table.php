@@ -15,9 +15,9 @@ class CreateSuhuTable extends Migration
     {
         Schema::create('suhu', function (Blueprint $table) {
             $table->unsignedBigInteger('area_id');
-            $table->string('celcius')->nullable();
-            $table->string('fahrenheit')->nullable();
-            $table->string('timerange')->nullable();
+            $table->string('celcius');
+            $table->string('fahrenheit');
+            $table->timestamp('timerange');
             $table->timestamps();
         });
         Schema::table('suhu', function (Blueprint $table){
