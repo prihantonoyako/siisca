@@ -20,4 +20,5 @@ class MenuModel extends Model
     public function belongsMenuGroup(){
         return $this->belongsTo(MenuGroupModel::class,'id_group','id_group');
     }
+
 }

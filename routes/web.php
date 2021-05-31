@@ -7,10 +7,9 @@ use App\Http\Controllers\ScrapingController;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\PenggunaController;
+use App\Http\Middleware\AksesAuth;
 use App\Http\Middleware\RoleAuth;
 use Illuminate\Support\Facades\Route;
-
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,20 +22,34 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 Route::get('/',[LoginController::class, 'show'])->name('index');
+
 Route::post('/login',[LoginController::class,'authenticate'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-Route::get('/register',[LoginController::class, 'register']);
-Route::post('/register/save',[RegisterController::class, 'store']);
-Route::get('/tambaharea',[ScrapingController::class, 'tambah_area']);
-Route::get('/scrap',[ScrapingController::class, 'scrap']);
 
 Route::get('/dashboard/{id_role}', [UserController::class, 'index'])->name('dashboard')->middleware(['auth',RoleAuth::class]);
 
-Route::get('/statistik/kelembapan',[UserController::class, 'statistik'])->name('kelembapan')->middleware(RoleAuth::class);
+//Menu
+Route::group(['prefix' => 'statistik','middleware' => ['auth',AksesAuth::class]], function() {
+    Route::get('overview',[StatistikController::class,'overview']);
+});
+Route::group(['prefix' => 'account','middleware' => ['auth',AksesAuth::class]], function() {
+    Route::view('/profile', 'portal.coming-soon');
+});
+Route::group(['prefix' => 'setting','middleware' => ['auth',AksesAuth::class]], function() {
+    
+});
+
+//route for scraping
+Route::prefix('scrap')->group(function () {
+    Route::get('area',[ScrapingController::class,'tambah_area']);
+    Route::get('data',[ScrapingController::class,'scrap']);
+});
+
+Route::resource('register',RegisterController::class);
+Route::get('/activation',[RegisterController::class,'activation']);
+Route::post('/activate',[RegisterController::class,'activate']);
 
 Route::resource('pengguna', PenggunaController::class);
+
 Route::get('/test',[TestingController::class, 'index'])->name('test');
 
-
-//Menu
-Route::get('/statistik/overview',[StatistikController::class,'overview'])->name('overview')->middleware(['auth',RoleAuth::class]);

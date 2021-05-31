@@ -9,7 +9,8 @@ use App\Models\Pengguna\AksesModel;
 use App\Models\Pengguna\MenuGroupModel;
 use App\Models\Pengguna\MenuModel;
 use Illuminate\Support\Facades\Auth;
-class RoleAuth
+
+class AksesAuth
 {
     /**
      * Handle an incoming request.
@@ -20,22 +21,17 @@ class RoleAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        
-        if (Auth::guard('pengguna')->check()) {
-            $role = RolePenggunaModel::findOrFail(
-                Auth::guard('pengguna')->id()
-            );
-            $routeController = $request->route()->getName();
 
-            $menu = MenuModel::where(
-                'url','LIKE',$routeController
-            );
-            $akses = AksesModel::where(
-                'id_role',$role
-            )->where('id_menu',$menu);
-            if($akses != null){
-                return $next($request);
+        if (Auth::check()) {
+            $group_menu = $request->segment(1);
+            $menu = $request->segment(2);
+            $id_group_menu = MenuGroupModel::where('nama_group',$group_menu)->firstOrFail()->value('id_group');
+            $id_menu = MenuModel::where('id_group',$id_group_menu)->where('nama_menu',$menu)->firstOrFail()->value('id_menu');
+            $akses = AksesModel::where('id_menu',$id_menu)->exists();
+            if ($akses) {
+               return $next($request);
             }
+            return abort(403);
         }
         return abort(403);
     }

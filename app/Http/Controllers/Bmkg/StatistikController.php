@@ -50,15 +50,15 @@ class StatistikController extends Controller
         $toDate = $request->to;
 
         $statistik = $this->showStatistik($area_id,$fromDate,$toDate);
-// dd($statistik);
+
         //show dashboard
-        // return view('menu.statistik.overview',[
-        //     'profile' => $profile,
-        //     'rolesPengguna' => $rolesPengguna,
-        //     'groupMenu' => $menus["GroupMenu"],
-        //     'menu' => $menus["Menu"],
-        //     'provinsi' => $provinsi,
-        //     '$statistik' => $statistik
-        // ]);
+        return view('menu.statistik.overview',[
+            'profile' => $profile,
+            'rolesPengguna' => $rolesPengguna,
+            'groupMenu' => $menus["GroupMenu"],
+            'menu' => $menus["Menu"],
+            'provinsi' => $provinsi,
+            'statistik' => $statistik
+        ]);
     }
 }

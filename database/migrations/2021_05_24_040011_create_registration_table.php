@@ -14,9 +14,9 @@ class CreateRegistrationTable extends Migration
     public function up()
     {
         Schema::create('registration', function (Blueprint $table) {
-            $table->id();
+            $table->id('id_registration');
             $table->unsignedBigInteger('id_pengguna');
-            $table->string('verification_code');
+            $table->char('verification_code',40);
             $table->timestamps();
         });
         Schema::table('registration', function (Blueprint $table){

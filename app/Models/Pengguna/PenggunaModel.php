@@ -3,6 +3,7 @@
 namespace App\Models\Pengguna;
 
 use App\Models\Pengguna\RolePenggunaModel;
+use App\Models\Registration;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -20,6 +21,7 @@ class PenggunaModel extends Authenticatable
         'nama_belakang',
         'email',
         'foto',
+        'is_aktif'
     ];
     protected $hidden = [
         'password'
@@ -31,5 +33,13 @@ class PenggunaModel extends Authenticatable
 
     public function getNamaPenggunaAttribute(){
         return "{$this->nama_depan} {$this->nama_belakang}";
+    }
+
+    public function setIsAktifAttribute($value){
+        $this->attributes['is_aktif'] = $value;
+    }
+
+    public function registration(){
+        return $this->hasOne(Registration::class);
     }
 }

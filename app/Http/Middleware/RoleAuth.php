@@ -5,9 +5,6 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use App\Models\Pengguna\RolePenggunaModel;
-use App\Models\Pengguna\AksesModel;
-use App\Models\Pengguna\MenuGroupModel;
-use App\Models\Pengguna\MenuModel;
 use Illuminate\Support\Facades\Auth;
 
 class RoleAuth
@@ -26,22 +23,14 @@ class RoleAuth
             $routeActiveRole = $request
                 ->route()
                 ->parameter('id_role');
-            if(!is_null($routeActiveRole)){
-                $role = RolePenggunaModel::find(
-                    Auth::id()
-                )
-                ->where('id_role',$routeActiveRole)->exists();
-            }else{
-                $role = RolePenggunaModel::findOrFail(
-                    Auth::id()
-                );
-            }
-            if ($role) {
-                return $next($request);
-            }
-            else{
+            if (!is_null($routeActiveRole)) {
+                $role = RolePenggunaModel::where('id_role', $routeActiveRole)->where('id_pengguna', Auth::id())->exists();
+                if ($role) {
+                    return $next($request);
+                }
                 return abort(403);
             }
+            return abort(404);
         }
         return abort(403);
     }

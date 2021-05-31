@@ -9,17 +9,14 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('jQuery/UI/jquery-ui.min.css') }}">
 <script src="{{ asset('jQuery/UI/jquery-ui.min.js') }}"></script>
 @endsection
-
+@if($statistik)
+<div class="alert alert-danger" role="alert">
+  
+</div>
 @section('content')
 
 <div class="container-fluid">
     <h1 class="h3 mb-2 text-gray-800 text-uppercase">{{ Route::currentRouteName() }}</h1>
-    <div style="display:none">
-        <div class="alert alert-success" id="success-alert">
-            <button type="button" classs="close" data-dismiss="alert">x</button>
-            <strong>Success! </strong> Data have been displayed
-        </div>
-    </div>
     <p class="mb-4">
     <form action=" {{ route('kelembapan') }}" method="GET">
         <label for="provinsi">Provinsi</label>
@@ -69,6 +66,7 @@
 
 
     @endsection
+    @endif
 
     @section('footer-script')
     <script>

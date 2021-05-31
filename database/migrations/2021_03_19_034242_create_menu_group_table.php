@@ -15,9 +15,14 @@ class CreateMenuGroupTable extends Migration
     {
         Schema::create('menu_group', function (Blueprint $table) {
             $table->id('id_group');
-            $table->string('nama_group');
-            $table->string('icon')->nullable();
+            $table->unsignedInteger('urutan');
+            $table->string('nama_group',20);
+            $table->string('url_group');
+            $table->string('icon');
             $table->timestamps();
+        });
+        Schema::table('menu_group', function(Blueprint $table){
+            $table->unique('urutan');
         });
     }
 

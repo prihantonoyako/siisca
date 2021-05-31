@@ -14,7 +14,7 @@ class CreateEmailVerificationTable extends Migration
     public function up()
     {
         Schema::create('email_verification', function (Blueprint $table) {
-            $table->id();
+            $table->id('id_email_verification');
             $table->unsignedBigInteger('id_pengguna');
             $table->string('verification_code');
             $table->timestamps();

@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 
-class AksesSeeder extends Seeder
+class RoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,15 +15,17 @@ class AksesSeeder extends Seeder
      */
     public function run()
     {
-        $menu = DB::table('menu')->pluck('id_menu');
-        foreach($menu as $value){
-        DB::table('akses')->insert([
-            'id_role' => DB::table('role')->where('nama_role','developer')->value('id_role'),
-            'id_menu' => $value,
-            'is_aktif' => '1',
+        DB::table('role')->insert([
+            'nama_role' => 'basic',
+            'url' => 'basic',
             'created_at' => Carbon::now('+07:00')->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now('+07:00')->format('Y-m-d H:i:s')
         ]);
-        }
+        DB::table('role')->insert([
+            'nama_role' => 'developer',
+            'url' => 'developer',
+            'created_at' => Carbon::now('+07:00')->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now('+07:00')->format('Y-m-d H:i:s')
+        ]);
     }
 }

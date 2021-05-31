@@ -16,14 +16,16 @@ class CreateMenuTable extends Migration
         Schema::create('menu', function (Blueprint $table) {
             $table->id('id_menu');
             $table->unsignedBigInteger('id_group');
-            $table->string('nama_menu',10);
-            $table->string('url_menu')->nullable();
-            $table->string('icon')->nullable();
+            $table->unsignedInteger('urutan');
+            $table->string('nama_menu');
+            $table->string('url_menu');
+            $table->string('icon');
             $table->enum('is_aktif',[0,1]);
             $table->timestamps();
         });
         Schema::table('menu', function (Blueprint $table){
             $table->foreign('id_group')->references('id_group')->on('menu_group');
+            $table->unique(['id_group','urutan']);
         });
     }
 

@@ -14,16 +14,17 @@ class CreateSubscriptionTable extends Migration
     public function up()
     {
         Schema::create('subscription', function (Blueprint $table) {
-            $table->id();
+            $table->id('id_subscription');
             $table->unsignedBigInteger('id_pengguna');
-            $table->unsignedBigInteger('id_role');
+            $table->unsignedBigInteger('id_subscription_plan');
             $table->timestamp('valid_thru');
             $table->timestamps();
         });
         Schema::table('subscription', function (Blueprint $table){
             $table->foreign('id_pengguna')->references('id_pengguna')->on('pengguna');
-            $table->foreign('id_role')->references('id_role')->on('role');
+            $table->foreign('id_subscription_plan')->references('id_subscription_plan')->on('subscription_plan');
         });
+        
     }
 
     /**

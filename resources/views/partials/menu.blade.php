@@ -23,11 +23,11 @@
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Aktif:</h6>
             @foreach($rolesPengguna as $item)
-                @if(session('id_role')==$item['id_role'])
-                <a class="collapse-item active text-uppercase" href="{{ url('dashboard') }}/{{ $item['id_role'] }}">{{ $item['nama_role'] }}</a>
-                @else
-                <a class="collapse-item text-uppercase" href="{{ url('dashboard') }}/{{ $item['id_role'] }}">{{ $item['nama_role'] }}</a>
-                @endif
+            @if(session('id_role')==$item['id_role'])
+            <a class="collapse-item active text-uppercase" href="{{ url('dashboard') }}/{{ $item['id_role'] }}">{{ $item['nama_role'] }}</a>
+            @else
+            <a class="collapse-item text-uppercase" href="{{ url('dashboard') }}/{{ $item['id_role'] }}">{{ $item['nama_role'] }}</a>
+            @endif
             @endforeach
         </div>
     </div>
@@ -44,18 +44,23 @@
 <!-- Nav Item - Pages Collapse Menu -->
 @foreach($groupMenu as $item)
 <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse{{ $item->id_group }}" aria-expanded="true" aria-controls="collapse{{ $item->id_group }}">
+    <a class="nav-link collapsed text-capitalize" href="#" data-toggle="collapse" data-target="#collapse{{ $item->id_group }}" aria-expanded="true" aria-controls="collapse{{ $item->id_group }}">
         <i class="fas fa-fw {{ $item->icon }}"></i>
         <span>{{ $item->nama_group }}</span>
     </a>
-    
+
     <div id="collapse{{ $item->id_group }}" class="collapse" aria-labelledby="{{ $item->id_group }}" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-        @foreach($menu as $itemChild)
+            @foreach($menu as $itemChild)
             @if($itemChild->id_group === $item->id_group)
-                <a class="collapse-item" href="{{ $itemChild->url_menu }}">{{ $itemChild->nama_menu }}</a>
+            <a class="collapse-item" href="{{ url("$item->nama_group/$itemChild->url_menu") }}">
+                <button class="btn btn-light btn-icon-split w-auto">
+                    <span class="icon text-gray-600"><i class="fas fa-arrow-right"></i></span>
+                    <span class="text text-capitalize">{{ $itemChild->nama_menu }}</span>
+                </button>
+            </a>
             @endif
-        @endforeach
+            @endforeach
         </div>
     </div>
 </li>
@@ -65,7 +70,7 @@
 
 <!-- Logout Menu -->
 <li class="nav-item">
-<a class="nav-link" href="{{ route('logout') }}">
+    <a class="nav-link" href="{{ route('logout') }}">
         <i class="fas fa-sign-out-alt"></i>
         <span>Logout</span></a>
 </li>

@@ -19,9 +19,9 @@ class CreatePenggunaTable extends Migration
             $table->string('password',);
             $table->string('nama_depan',20);
             $table->string('nama_belakang',20)->nullable();
-            $table->string('email')->nullable();
+            $table->string('email');
             $table->string('foto')->nullable();
-            $table->enum('is_aktif',[0,1]);
+            $table->enum('is_aktif',[0,1])->default(0);
             $table->timestamps();
         });
     }
