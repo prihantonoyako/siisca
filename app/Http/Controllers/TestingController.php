@@ -2,22 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Table\ArahAnginController;
-use App\Http\Traits\MenuTrait;
-use App\Http\Traits\PenggunaTrait;
-use App\Http\Middleware\RoleAuth;
-use App\Models\Table\ArahAnginModel;
-use App\Models\Table\CuacaModel;
-use App\Models\Table\KecepatanAnginModel;
-use App\Models\Table\KelembapanModel;
-use App\Models\Table\SuhuModel;
+use App\Http\Traits\WeatherTrait;
+use Illuminate\Http\Request;
 
 class TestingController extends Controller
 {
-    use MenuTrait, PenggunaTrait;
+    use WeatherTrait;
 
-    public function index() {
-
-        
+    public function index(Request $request) {
+        // $area_id = request('areaId');
+        // $fromDate = request('fromDate');
+        // $toDate = request('toDate');
+        $area_id = $request->query('areaId');
+        $fromDate = $request->query('fromDate');
+        $toDate = $request->query('toDate');
+        $statistik = $this->showStatistik($area_id,$fromDate,$toDate);
+        return response()->json($statistik, 200);
     }
+    // {
+        //     "wilayah": Bali,
+        //     "data":[
+        //         {
+        //             "datetime":"yyyy-mm-dd",
+        //             "cuacaKode":"kode",
+        //             "cuacaNama":"cloudy",
+        //             "kelembapan":"xx",
+        //             "suhuCelcius":"xx",
+        //             "suhuFahrenheit":"xx"
+        //         },
+        //     ]
+        // }
 }

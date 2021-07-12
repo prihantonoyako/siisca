@@ -2,17 +2,11 @@
 
 namespace App\Http\Controllers\Bmkg;
 use App\Http\Controllers\Controller;
-use App\Http\Middleware\RoleAuth;
 use App\Http\Traits\MenuTrait;
 use App\Http\Traits\PenggunaTrait;
 use App\Http\Traits\WeatherTrait;
-use App\Models\Pengguna\PenggunaModel;
-use App\Models\Pengguna\MenuModel;
-use App\Models\Pengguna\MenuGroupModel;
 use App\Models\Table\WilayahModel;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class StatistikController extends Controller
 {
@@ -23,7 +17,7 @@ class StatistikController extends Controller
         
     }
 
-    public function overview(Request $request){
+    public function index_overview(){
         //get user id from session ref: LoginController
         $id_pengguna = session('id_pengguna');
 
@@ -44,13 +38,7 @@ class StatistikController extends Controller
 
         //get area to display
         $provinsi = WilayahModel::pluck('provinsi','area_id')->all();
-
-        $area_id = $request->provinsi;
-        $fromDate = $request->from;
-        $toDate = $request->to;
-
-        $statistik = $this->showStatistik($area_id,$fromDate,$toDate);
-
+        
         //show dashboard
         return view('menu.statistik.overview',[
             'profile' => $profile,
@@ -58,7 +46,18 @@ class StatistikController extends Controller
             'groupMenu' => $menus["GroupMenu"],
             'menu' => $menus["Menu"],
             'provinsi' => $provinsi,
-            'statistik' => $statistik
         ]);
+    }
+
+    public function show_overview(Request $request) {
+        $area_id = $request->query('areaId');
+        $fromDate = $request->query('fromDate');
+        $toDate = $request->query('toDate');
+        $statistik = $this->showStatistik($area_id,$fromDate,$toDate);
+        if(!$statistik){
+            $suggestion = "Minimum date: ".$this->check_datetime_suggestion();
+            return response()->json($suggestion,500);
+        }
+        return response()->json($statistik, 200);
     }
 }

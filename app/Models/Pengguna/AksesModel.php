@@ -13,11 +13,13 @@ class AksesModel extends Model
     protected $fillable = [
         'id_role',
         'id_menu',
-        'nomor_urut_menu',
         'is_aktif'
     ];
 
     public function belongsRole(){
         return $this->belongsTo(RoleModel::class,'id_role','id_role');
+    }
+    public function belongsMenu(){
+        return $this->belongsTo(MenuModel::class,'id_menu','id_menu');
     }
 }

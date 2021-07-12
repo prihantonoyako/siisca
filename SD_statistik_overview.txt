@@ -1,0 +1,32 @@
+{
+    "wilayah": Bali,
+    "data":[
+        {
+            "datetime":"yyyy-mm-dd",
+            "cuacaKode":"kode",
+            "cuacaNama":"cloudy",
+            "kelembapan":"xx",
+            "suhuCelcius":"xx",
+            "suhuFahrenheit":"xx"
+        },
+    ]
+}
+{"employees":[
+  { "firstName":"John", "lastName":"Doe" },
+  { "firstName":"Anna", "lastName":"Smith" },
+  { "firstName":"Peter", "lastName":"Jones" }
+]}
+<forecast>
+    <tabular>
+        <time from="2021-06-16T15:00:00" to="2021-06-16T16:00:00">
+            <!-- Valid from 2021-06-16T15:00:00 to 2021-06-16T16:00:00 -->
+            <symbol number="3" numberEx="3" name="Partly cloudy" var="03d" />
+            <precipitation value="0" />
+            <!-- Valid at 2021-06-16T15:00:00 -->
+            <windDirection deg="205.8" code="SSW" name="South-southwest" />
+            <windSpeed mps="5.3" name="Gentle breeze" />
+            <temperature unit="celsius" value="27" />
+            <pressure unit="hPa" value="1009.9" />
+        </time>
+    </tabular>
+</forecast>

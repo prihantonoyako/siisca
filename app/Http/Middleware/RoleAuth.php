@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Pengguna\RoleModel;
 use Closure;
 use Illuminate\Http\Request;
 use App\Models\Pengguna\RolePenggunaModel;
@@ -25,7 +26,8 @@ class RoleAuth
                 ->parameter('id_role');
             if (!is_null($routeActiveRole)) {
                 $role = RolePenggunaModel::where('id_role', $routeActiveRole)->where('id_pengguna', Auth::id())->exists();
-                if ($role) {
+                $roleIsAktif = RoleModel::where('id_role',$routeActiveRole)->where('is_aktif','1')->exists();
+                if ($role&&$roleIsAktif) {
                     return $next($request);
                 }
                 return abort(403);

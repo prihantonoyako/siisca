@@ -46,34 +46,4 @@ class UserController extends Controller
         ]);
 
     }
-
-    public function overview(Request $request){
-        //get user id from session ref: LoginController
-        $id_pengguna = session('id_pengguna');
-
-        //set session user and menu
-        $this->setSessionMenu(null);
-
-        //find profile information
-        $profile = $this->getPenggunaDashboard($id_pengguna);
-    
-        //find role yang dijabat
-        $rolesPengguna = $this->getRolesPengguna($id_pengguna);
-
-        //find hak akses menu untuk role yang aktif
-        $aksesMenu = $this->getAkses(session('id_role'));
-
-        //find menu information
-        $menus = $this->getMenus($aksesMenu);
-
-        //show dashboard
-
-        return view('menu.statistik.overview',[
-            'profile' => $profile,
-            'rolesPengguna' => $rolesPengguna,
-            'groupMenu' => $menus["GroupMenu"],
-            'menu' => $menus["Menu"]
-        ]);
-    }
-
 }

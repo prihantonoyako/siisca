@@ -19,6 +19,7 @@ class CreateMenuGroupTable extends Migration
             $table->string('nama_group',20);
             $table->string('url_group');
             $table->string('icon');
+            $table->enum('is_aktif',[0,1]);
             $table->timestamps();
         });
         Schema::table('menu_group', function(Blueprint $table){

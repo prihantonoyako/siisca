@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
+
 class PenggunaModel extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -21,7 +23,7 @@ class PenggunaModel extends Authenticatable
         'nama_belakang',
         'email',
         'foto',
-        'is_aktif'
+        'is_aktif',
     ];
     protected $hidden = [
         'password'
@@ -42,4 +44,25 @@ class PenggunaModel extends Authenticatable
     public function registration(){
         return $this->hasOne(Registration::class);
     }
+
+    public function getRegisteredAttribute(){
+        return Carbon::createFromFormat('Y-m-d H:i:s', "{$this->created_at}")->format('d/m/Y');
+    }
+
+    public function getUpdateProfileAttribute(){
+        $updatedAt = Carbon::createFromFormat('Y-m-d H:i:s', "{$this->updated_at}");
+        $sinceWhen = $updatedAt->diffInDays(Carbon::now());
+        $sinceClause = "days ago";
+        if($sinceWhen>30){
+            $sincewhen = $updatedAt->diffInMonths(Carbon::now());
+            $sinceClause = "months ago";
+            if($sinceWhen>12){
+                $sinceWhen = $updatedAt->diffInYears(Carbon::now());
+                $sinceClause = "years ago";
+            }
+        }
+        $updatedAt = $updatedAt->format('d/m/Y');
+        return $updatedAt . " (" . $sinceWhen . $sinceClause . ")";
+    }
+
 }

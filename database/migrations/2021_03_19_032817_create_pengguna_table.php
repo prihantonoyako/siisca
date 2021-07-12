@@ -24,6 +24,9 @@ class CreatePenggunaTable extends Migration
             $table->enum('is_aktif',[0,1])->default(0);
             $table->timestamps();
         });
+        Schema::table('pengguna', function(Blueprint $table){
+            $table->unique('email');
+        });
     }
 
     /**

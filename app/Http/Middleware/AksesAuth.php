@@ -25,9 +25,15 @@ class AksesAuth
         if (Auth::check()) {
             $group_menu = $request->segment(1);
             $menu = $request->segment(2);
-            $id_group_menu = MenuGroupModel::where('nama_group',$group_menu)->firstOrFail()->value('id_group');
-            $id_menu = MenuModel::where('id_group',$id_group_menu)->where('nama_menu',$menu)->firstOrFail()->value('id_menu');
-            $akses = AksesModel::where('id_menu',$id_menu)->exists();
+            $id_group_menu = MenuGroupModel::where('url_group',$group_menu)->where('is_aktif','1')->value('id_group');
+            if(is_null($id_group_menu)){
+                return abort(404);
+            }
+            $id_menu = MenuModel::where('id_group',$id_group_menu)->where('url_menu',$menu)->where('is_aktif','1')->value('id_menu');
+            if(is_null($id_menu)){
+                return abort(404);
+            }
+            $akses = AksesModel::where('id_menu',$id_menu)->where('is_aktif','1')->exists();
             if ($akses) {
                return $next($request);
             }

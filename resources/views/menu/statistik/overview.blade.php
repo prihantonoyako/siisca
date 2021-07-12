@@ -1,52 +1,52 @@
-@extends('layout.menu')
+@extends('layout.statistik')
 
 @section('head')
-<!-- compressed version
-    <script src="{{ asset('jQuery/jquery-3.6.0.min.js') }}"></script>
-    uncompressed version
-    <script src="{{ asset('jQuery/jquery-3.6.0.js') }}"></script>
-    -->
-<link rel="stylesheet" type="text/css" href="{{ asset('jQuery/UI/jquery-ui.min.css') }}">
-<script src="{{ asset('jQuery/UI/jquery-ui.min.js') }}"></script>
+<link href="{{ asset('menu/statistik/css/meteogram.css') }}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ asset('datetimepicker-master/build/jquery.datetimepicker.min.css') }}">
 @endsection
-@if($statistik)
-<div class="alert alert-danger" role="alert">
-  
-</div>
+
 @section('content')
-
 <div class="container-fluid">
-    <h1 class="h3 mb-2 text-gray-800 text-uppercase">{{ Route::currentRouteName() }}</h1>
-    <p class="mb-4">
-    <form action=" {{ route('kelembapan') }}" method="GET">
-        <label for="provinsi">Provinsi</label>
-        <select id="provinsi" name="provinsi">
-            @foreach($provinsi as $key => $value)
-            <option value="{{ $key }}">{{ $value }}</option>
-            @endforeach
-        </select>
-        <label for="from">From</label>
-        <input type="text" id="from" name="from">
-        <label for="to">to</label>
-        <input type="text" id="to" name="to">
-        <button type="submit" class="btn btn-primary">Display</button>
-    </form>
-    </p>
-    <br>
-    <pre id="varJson"></pre>
-
     <div class="row">
-        <div class="col-xl-12 col-lg-7">
-            <!-- Area Chart -->
+        <div class="col-12 col-md-12">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div class="form-row align-items-center">
+                        <div class="col-auto my-1">
+                            <label for="provinsi">Provinsi</label>
+                            <select id="provinsi" name="provinsi" class="form-control">
+                                @foreach($provinsi as $key => $value)
+                                <option value="{{ $key }}">{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-sm-3 my-1">
+                            <label for="from">From</label>
+                            <input type="text" id="from" name="from" class="form-control">
+                        </div>
+                        <div class="col-sm-3 my-1">
+                            <label for="to">to</label>
+                            <input type="text" id="to" name="to" class="form-control">
+                        </div>
+                        <div class="col-auto my-1">
+                            <button type="submit" class="btn btn-primary show_data">Display</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Area Chart</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">STATISTIK</h6>
                 </div>
                 <div class="card-body">
                     <figure class="highcharts-figure">
-                        <div id="container" style="max-width: 800px; min-width: 380px; height: 310px; margin: 0 auto">
+                        <div id="container" style="max-width: 1080px; min-width: 380px; height: 310px; margin: 0 auto">
                             <div style="margin-top: 100px; text-align: center" id="loading">
-                                <i class="fa fa-spinner fa-spin"></i> Loading data from external source
+                                <i class="fa fa-spinner fa-spin"></i> Please wait a moment! Something incredible might happen!
                             </div>
                         </div>
                         <p class="highcharts-description">
@@ -63,46 +63,48 @@
             </div>
         </div>
     </div>
+</div>
+@endsection
 
-
-    @endsection
-    @endif
-
-    @section('footer-script')
-    <script>
-        $(function() {
-            var dateFormat = "mm/dd/yy",
-                from = $("#from")
-                .datepicker({
-                    defaultDate: "+1w",
-                    changeMonth: true,
-                    numberOfMonths: 3
-                })
-                .on("change", function() {
-                    to.datepicker("option", "minDate", getDate(this));
-                }),
-                to = $("#to").datepicker({
-                    defaultDate: "+1w",
-                    changeMonth: true,
-                    numberOfMonths: 3
-                })
-                .on("change", function() {
-                    from.datepicker("option", "maxDate", getDate(this));
+@section('footer-script')
+<script src="{{ asset('menu/statistik/meteogram-demo.js') }}"></script>
+<script src="{{ asset('jQuery/UI/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('datetimepicker-master/build/jquery.datetimepicker.full.min.js') }}"></script>
+<script src="{{ asset('menu/statistik/overview.js') }}"></script>
+<script>
+$(document).ready(function () {
+    $(".show_data").click(function () {
+        var url = "{{ url('statistik/overview/show') }}";
+        $.ajax({
+            url: url,
+            type: "GET",
+            cache: false,
+            data: {
+                _token: '{{ csrf_token() }}',
+                areaId: $('#provinsi').val(),
+                fromDate: $('#from').val(),
+                toDate: $('#to').val(),
+            },
+            dataType: "json",
+            success: function (response) {
+                swal({
+                    title: "Success",
+                    text: "Data has been fetched",
+                    icon: "success",
+                    timer: 1000
                 });
-
-            function getDate(element) {
-                var date;
-                try {
-                    date = $.datepicker.parseDate(dateFormat, element.value);
-                } catch (error) {
-                    date = null;
-                }
-
-                return date;
+                window.meteogram = new Meteogram(response, 'container');
+            },
+            error: function (jqXHR,textStatus,errorThrown) {
+                swal({
+                    title: "Error",
+                    text: jqXHR.responseText,
+                    icon: "error",
+                    timer: 5000
+                });
             }
         });
-
-        // var profile = {!! json_encode($profile) !!};
-        // document.getElementById("varJson").textContent = JSON.stringify(profile, undefined, 2);
-    </script>
-    @endsection
+    });
+});
+</script>
+@endsection

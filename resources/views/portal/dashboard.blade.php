@@ -2,6 +2,5 @@
 
 @section('content')
 
-    @yield('read-data')
     
 @endsection

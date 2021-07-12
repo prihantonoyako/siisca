@@ -18,4 +18,7 @@ class RolePenggunaModel extends Model
     public function belongsRole() {
         $this->belongsTo(RoleModel::class,'id_role','id_role');
     }
+    public function Pengguna(){
+        return $this->belongsTo(PenggunaModel::class, 'id_pengguna', 'id_pengguna');
+    }
 }

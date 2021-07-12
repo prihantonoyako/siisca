@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     @include('partials.head')
     @yield('head')
 </head>
@@ -29,7 +28,6 @@
             <!-- Begin Page Content -->
             @yield('content')
             <!-- /.container-fluid -->
-
         </div>
         <!-- End of Main Content -->
 
@@ -47,9 +45,8 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
-
     @include('partials.footer-script')
-
+    @yield('footer-script')
 </body>
 
 </html>

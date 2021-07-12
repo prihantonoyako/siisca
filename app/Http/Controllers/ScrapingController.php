@@ -25,15 +25,6 @@ class ScrapingController extends Controller
             $wilayah->area_id = $area->getAttribute('id');
             $wilayah->provinsi = $area->getAttribute('domain');
             $wilayah->save();
-            echo $area->getAttribute('id') . "<br>";
-            echo $area->getAttribute('domain');
-            echo "<br>";
-            /*foreach($area->getElementsByTagName('parameter') as $item){
-               echo $item->getAttribute('id');
-               echo "<br>";
-           }
-           echo "<br>";
-           */
         }
     }
 

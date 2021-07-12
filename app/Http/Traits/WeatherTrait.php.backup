@@ -1,0 +1,88 @@
+<?php
+
+namespace App\Http\Traits;
+
+use App\Models\Table\CuacaModel;
+use App\Models\Table\KecepatanAnginModel;
+use App\Models\Table\KelembapanModel;
+use App\Models\Table\SuhuModel;
+use App\Models\Table\WilayahModel;
+use Illuminate\Support\Carbon;
+
+trait WeatherTrait
+{
+
+    public function getSuhu($area_id, $fromDate, $toDate)
+    {
+        $suhu = SuhuModel::where([
+            ['area_id', '=', $area_id],
+            ['timerange', '>=', $fromDate],
+            ['timerange', '<=', $toDate]
+        ])->get(['celcius', 'fahrenheit', 'timerange']);
+        $data = array();
+        foreach ($suhu as $value) {
+            array_push(
+                $data,
+                array($value->celcius, $value->fahrenheit, $value->timerange)
+            );
+        }
+        return $data;
+    }
+
+    public function getKelembapan($area_id, $fromDate, $toDate)
+    {
+        $kelembapan = KelembapanModel::where([
+            ['area_id', '=', $area_id],
+            ['timerange', '>=', $fromDate],
+            ['timerange', '<=', $toDate]
+        ])->get(['kelembapan', 'timerange']);
+        $data = array();
+        foreach ($kelembapan as $value) {
+            array_push(
+                $data,
+                array($value->kelembapan, $value->timerange)
+            );
+        }
+        return $data;
+    }
+
+    public function getCuaca($area_id, $fromDate, $toDate)
+    {
+        $cuaca = CuacaModel::where([
+            ['area_id', '=', $area_id],
+            ['timerange', '>=', $fromDate],
+            ['timerange', '<=', $toDate]
+        ])->get(['cuaca']);
+        $data = array();
+        $icon ="";
+        foreach($cuaca as $value) {
+            $icon = "yr.no/".$value->cuaca.".svg";
+            array_push(
+                $data,
+                array($value->cuaca,$icon)
+            );
+        }
+        return $data;
+    }
+
+    public function showStatistik($area_id, $fromDate, $toDate)
+    {
+        $area_empty = is_null($area_id);
+        $from_empty = is_null($fromDate);
+        $to_empty = is_null($toDate);
+        switch (true) {
+            case $area_empty:
+                $area_id = WilayahModel::first()->value('area_id');
+            case $from_empty:
+                $fromDate = Carbon::now('+07:00')->subDays(3)->format('Y-m-d H:i:s');
+            case $to_empty:
+                $toDate = Carbon::now('+07:00')->format('Y-m-d H:i:s');
+        }
+        $statistik = array(
+            'suhu' => $this->getSuhu($area_id, $fromDate, $toDate),
+            'kelembapan' => $this->getKelembapan($area_id, $fromDate, $toDate),
+            'cuaca' => $this->getCuaca($area_id, $fromDate, $toDate)
+        );
+        return $statistik;
+    }
+}

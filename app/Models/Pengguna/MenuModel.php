@@ -14,7 +14,8 @@ class MenuModel extends Model
         'nama_menu',
         'url_menu',
         'icon',
-        'id_group'
+        'id_group',
+        'urutan'
     ];
 
     public function belongsMenuGroup(){

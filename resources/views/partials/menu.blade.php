@@ -1,6 +1,6 @@
 <!-- Nav Item - Dashboard -->
 <li class="nav-item active">
-    <a class="nav-link text-capitalize" href="{{ url('dashboard') }}/{{ session('role_aktif->id_role') }}">
+    <a class="nav-link text-capitalize" href="{{ url('dashboard') }}/{{ session('id_role') }}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard {{ session('role_name') }}</span></a>
 </li>
@@ -48,18 +48,15 @@
         <i class="fas fa-fw {{ $item->icon }}"></i>
         <span>{{ $item->nama_group }}</span>
     </a>
-
-    <div id="collapse{{ $item->id_group }}" class="collapse" aria-labelledby="{{ $item->id_group }}" data-parent="#accordionSidebar">
+    <div id="collapse{{ $item["id_group"] }}" class="collapse" aria-labelledby="{{ $item["id_group"] }}" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            @foreach($menu as $itemChild)
-            @if($itemChild->id_group === $item->id_group)
-            <a class="collapse-item" href="{{ url("$item->nama_group/$itemChild->url_menu") }}">
+            @foreach($menu[$item->id_group] as $itemChild)
+            <a class="collapse-item" href="{{ url("$item->url_group/$itemChild->url_menu") }}">
                 <button class="btn btn-light btn-icon-split w-auto">
-                    <span class="icon text-gray-600"><i class="fas fa-arrow-right"></i></span>
+                    <span class="icon text-gray-600"><i class="fas {{$itemChild->icon}}"></i></span>
                     <span class="text text-capitalize">{{ $itemChild->nama_menu }}</span>
                 </button>
             </a>
-            @endif
             @endforeach
         </div>
     </div>

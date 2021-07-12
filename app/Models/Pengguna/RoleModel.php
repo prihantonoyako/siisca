@@ -13,7 +13,8 @@ class RoleModel extends Model
     protected $primaryKey = 'id_role';
     protected $fillable = [
         'nama_role',
-        'url'
+        'url',
+        'is_aktif'
     ];
 
     public function hasAkses() {
